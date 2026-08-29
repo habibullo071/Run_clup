@@ -129,7 +129,7 @@ export default function App() {
     setUserData((prev) => ({ ...prev, [field]: value }));
   };
 
-  // Real Auth Handler (Sign In / Sign Up)
+  // Real Auth Handler
   const handleAuthSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -137,11 +137,9 @@ export default function App() {
 
     try {
       if (isSignUp) {
-        // Sign Up
         await createUserWithEmailAndPassword(auth, userData.email, userData.password);
         setStep('name');
       } else {
-        // Sign In
         await signInWithEmailAndPassword(auth, userData.email, userData.password);
         setStep('main');
       }
@@ -162,7 +160,7 @@ export default function App() {
     }
   };
 
-  // Save Full Profile to Firestore
+  // Save Full Profile
   const handleSaveProfile = async () => {
     if (!userData.firstName.trim()) {
       setErrorMsg('Iltimos, ismingizni kiriting!');
@@ -189,8 +187,13 @@ export default function App() {
     }
   };
 
+  // SCROLLBARNI YO'Q QILUVCHI ASOSIY STIL
   const containerStyle = {
-    minHeight: '100vh',
+    position: 'fixed', // Ekranni to'liq egallaydi, scroll chiqishiga yo'l qo'ymaydi
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     backgroundColor: '#0f172a',
     color: '#fff',
     display: 'flex',
@@ -198,41 +201,41 @@ export default function App() {
     justifyContent: 'center',
     alignItems: 'center',
     padding: '20px',
+    boxSizing: 'border-box',
     fontFamily: 'sans-serif'
   };
 
   const cardStyle = {
     width: '100%',
-    maxWidth: '400px',
-    backgroundColor: '#1e293b',
-    padding: '30px',
-    borderRadius: '24px',
-    boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.5)'
+    maxWidth: '360px',
+    backgroundColor: 'transparent',
+    padding: '0px'
   };
 
   const inputStyle = {
     width: '100%',
-    padding: '14px',
+    padding: '14px 16px',
     borderRadius: '12px',
-    border: '1px solid #334155',
-    backgroundColor: '#0f172a',
+    border: '1px solid #1e293b',
+    backgroundColor: '#172033',
     color: '#fff',
-    marginBottom: '16px',
+    marginBottom: '14px',
     outline: 'none',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    fontSize: '15px'
   };
 
   const buttonStyle = {
     width: '100%',
-    padding: '16px',
-    borderRadius: '16px',
+    padding: '14px',
+    borderRadius: '12px',
     border: 'none',
     backgroundColor: '#38bdf8',
     color: '#0f172a',
     fontWeight: 'bold',
     fontSize: '16px',
     cursor: 'pointer',
-    marginTop: '10px'
+    marginTop: '6px'
   };
 
   // 1-BOSQICH: AUTHENTICATION
@@ -240,10 +243,10 @@ export default function App() {
     return (
       <div style={containerStyle}>
         <div style={cardStyle}>
-          <h2 style={{ textAlign: 'center', marginBottom: '8px' }}>
+          <h2 style={{ textAlign: 'center', marginBottom: '6px', fontSize: '26px' }}>
             {isSignUp ? 'Sign Up' : 'Sign In'}
           </h2>
-          <p style={{ textAlign: 'center', color: '#94a3b8', marginBottom: '24px', fontSize: '14px' }}>
+          <p style={{ textAlign: 'center', color: '#94a3b8', marginBottom: '28px', fontSize: '14px' }}>
             {isSignUp ? 'Create your account to start tracking' : 'Welcome back to Run Club'}
           </p>
 
@@ -295,8 +298,8 @@ export default function App() {
     return (
       <div style={containerStyle}>
         <div style={cardStyle}>
-          <h2 style={{ textAlign: 'center', marginBottom: '8px' }}>Your Profile</h2>
-          <p style={{ textAlign: 'center', color: '#94a3b8', marginBottom: '24px', fontSize: '14px' }}>
+          <h2 style={{ textAlign: 'center', marginBottom: '6px', fontSize: '26px' }}>Your Profile</h2>
+          <p style={{ textAlign: 'center', color: '#94a3b8', marginBottom: '28px', fontSize: '14px' }}>
             Tell us a bit about yourself
           </p>
 
@@ -339,7 +342,7 @@ export default function App() {
   if (step === 'fitness') {
     return (
       <div style={containerStyle}>
-        <div style={{ width: '100%', maxWidth: '400px' }}>
+        <div style={{ width: '100%', maxWidth: '360px' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
             {['Male', 'Female'].map((g) => {
               const selected = userData.gender === g;
@@ -452,7 +455,7 @@ export default function App() {
 
   // 4-BOSQICH: MAIN APP
   return (
-    <div style={{ position: 'relative', width: '100vw', height: '100vh', margin: 0, padding: 0 }}>
+    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, margin: 0, padding: 0, overflow: 'hidden' }}>
       <div ref={mapRef} style={{ width: '100%', height: '100%' }} />
 
       <div style={{
