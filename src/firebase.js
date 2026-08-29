@@ -1,5 +1,10 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAnalytics } from "firebase/analytics";
+import { 
+  getAuth, 
+  setPersistence, 
+  browserLocalPersistence 
+} from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -12,9 +17,15 @@ const firebaseConfig = {
   measurementId: "G-LLPFJGSC0V"
 };
 
-// Initialize Firebase
+// Firebase-ni ishga tushirish
 const app = initializeApp(firebaseConfig);
+export const analytics = getAnalytics(app);
 
-// Export Auth & Firestore
+// Auth va Firestore-ni eksport qilish
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+
+// Login holati saqlanib qolishi uchun
+setPersistence(auth, browserLocalPersistence).catch((error) => {
+  console.error("Persistence error:", error);
+});
